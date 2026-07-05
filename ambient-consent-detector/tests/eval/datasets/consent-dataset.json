@@ -1,0 +1,130 @@
+{
+  "eval_cases": [
+    {
+      "eval_case_id": "organic_news_sri_lanka",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "Analyze the following text:\n\nHeavy rains in Sri Lanka's Southern Province have triggered minor flooding in low-lying areas near the Nilwala River. Local irrigation officers reported that water levels reached warning levels early Sunday morning. Residents in local villages have expressed concern about potential crop damage. 'We are monitoring the spillways closely,' said Chief Irrigation Engineer M. K. Silva. Some local community groups have started distributing dry rations to affected households, while calling on the local government to improve drainage infrastructure in the long term."
+          }
+        ]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "MCI Score: Low (under 30). This is a standard local news report with multiple viewpoints (residents, engineers, community groups) and no indication of a coordinated campaign or state/NGO manufactured consent. Should route to Sri Lankan Context Specialist."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "eval_case_id": "state_sponsored_propaganda_sri_lanka",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "Analyze the following text:\n\nThe Department of Government Information (DGI) released a statement hailing the revolutionary progress of the Colombo Port City economic zone as a historic triumph for the nation. Under the visionary guidance of the Ministry of Urban Development, the project has achieved unparalleled success, silencying all unpatriotic saboteurs who raised groundless concerns about environmental damage. The nation is united in gratitude for this development. Independent experts agree that this is the sole path to national prosperity, and any attempt to delay or criticize the project is clearly backed by foreign actors seeking to destabilize the state."
+          }
+        ]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "MCI Score: High (over 70). This is a classic state-backed manufactured consent narrative propagated by the Department of Government Information and Ministry of Urban Development. It uses heavy propaganda framing ('unpatriotic saboteurs', 'visionary guidance'), excludes dissenting voices, and relies on a single state source to push a coordinated agenda. Should route to Sri Lankan Context Specialist."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "eval_case_id": "foreign_ngo_influence_sri_lanka",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "Analyze the following text:\n\nA new study by the Center for Democratic Advocacy (CDA) has concluded that Sri Lanka's domestic agricultural policies are entirely failing. The study asserts that the country must immediately pivot toward liberalizing land markets to secure international trust, a position long advocated by Western financial institutions. The report relies exclusively on economic models provided by agricultural conglomerates and makes no mention of the research showing local cooperative success. The CDA is primarily funded by the international foundation 'Global Prosperity Inititative', though this is not disclosed in the report."
+          }
+        ]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "MCI Score: Moderate to High (between 50 and 80). This shows signs of manufactured consent sponsored by the Global Prosperity Initiative and propagated through the Center for Democratic Advocacy. It shows narrative unanimity (ignoring cooperative models) and lacks funding transparency, promoting policy prescriptions favored by its foreign sponsors. Should route to Sri Lankan Context Specialist."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "eval_case_id": "generic_us_policy",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "Analyze the following text:\n\nCalifornia is facing significant grid stability challenges this summer as temperatures soar and energy demands hit peak levels. Experts at the California Independent System Operator (ISO) emphasize the need for a balanced approach, combining solar battery storage with temporary gas-fired generation. Environmental groups argue that the state should accelerate offshore wind development, while some industry groups suggest prolonging the lifespan of existing nuclear facilities. Local city councils are divided on the transition timeline."
+          }
+        ]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "MCI Score: Low. This is a standard policy debate with multiple viewpoints (ISO, environmentalists, industry, city councils) and is not related to Sri Lanka or Russia. It should bypass regional context and route to the Generic Context Specialist."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "eval_case_id": "divaina_sri_lankan_news",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "https://www.divaina.lk/provincial-news/87644"
+          }
+        ]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "MCI Score: Low to Moderate. This article discusses Gampola divisional secretary Athma Dilrukshi Jayaratne being targeted in a political/administrative conspiracy. It contains Sri Lankan provincial context and should be routed to the Sri Lankan Context Specialist."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "eval_case_id": "duran_russian_geopolitics",
+      "prompt": {
+        "role": "user",
+        "parts": [
+          {
+            "text": "https://www.youtube.com/watch?v=Xp9jvjQiZHY"
+          }
+        ]
+      },
+      "reference": {
+        "response": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "MCI Score: Moderate to High. This transcript features Alexander Mercouris commentary focusing on Vladimir Putin and the conflict in Ukraine. It contains Russian geopolitical themes and Kremlin narratives, and must route to the Russian Context Specialist."
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
