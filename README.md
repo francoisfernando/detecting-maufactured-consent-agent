@@ -1,94 +1,109 @@
-# ambient-consent-detector
+# 🕵️‍♂️ Ambient Manufactured Consent Detector
 
-Simple ReAct agent
-Agent generated with `agents-cli` version `1.0.0`
+An advanced multi-agent pipeline built with **Google ADK 2.0 (Agent Development Kit)** designed to detect manufactured consent, state-backed propaganda, and foreign NGO influence in media articles, blogs, and YouTube video transcripts.
 
-## Project Structure
-
-```
-ambient-consent-detector/
-├── app/         # Core agent code
-│   ├── agent.py               # Main agent logic
-│   ├── fast_api_app.py        # FastAPI Backend server
-│   └── app_utils/             # App utilities and helpers
-├── tests/                     # Unit, integration, and load tests
-├── GEMINI.md                  # AI-assisted development guide
-└── pyproject.toml             # Project dependencies
-```
-
-> 💡 **Tip:** Use [Antigravity CLI](https://antigravity.google/) for AI-assisted development - project context is pre-configured in `GEMINI.md`.
-
-## Requirements
-
-Before you begin, ensure you have:
-- **uv**: Python package manager (used for all dependency management in this project) - [Install](https://docs.astral.sh/uv/getting-started/installation/) ([add packages](https://docs.astral.sh/uv/concepts/dependencies/) with `uv add <package>`)
-- **agents-cli**: Agents CLI - Install with `uv tool install google-agents-cli`
-- **Google Cloud SDK**: For GCP services - [Install](https://cloud.google.com/sdk/docs/install)
-
-
-## Quick Start
-
-Install `agents-cli` and its skills if not already installed:
-
-```bash
-uvx google-agents-cli setup
-```
-
-Install required packages:
-
-```bash
-agents-cli install
-```
-
-Test the agent with a local web server:
-
-```bash
-agents-cli playground
-```
-
-You can also use features from the [ADK](https://adk.dev/) CLI with `uv run adk`.
-
-## Commands
-
-| Command              | Description                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------- |
-| `agents-cli install` | Install dependencies using uv                                                         |
-| `agents-cli playground` | Launch local development environment                                                  |
-| `agents-cli lint`    | Run code quality checks                                                               |
-| `agents-cli eval`    | Evaluate agent behavior (generate, grade, analyze, and more — see `agents-cli eval --help`) |
-| `uv run pytest tests/unit tests/integration` | Run unit and integration tests                                                        |
-| `agents-cli deploy`  | Deploy agent to Agent Runtime                                                                |
-| `agents-cli publish gemini-enterprise` | Register deployed agent to Gemini Enterprise                    || [A2A Inspector](https://github.com/a2aproject/a2a-inspector) | Launch A2A Protocol Inspector                                                        |
-
-## 🛠️ Project Management
-
-| Command | What It Does |
-|---------|--------------|
-| `agents-cli scaffold enhance` | Add CI/CD pipelines and Terraform infrastructure |
-| `agents-cli infra cicd` | One-command setup of entire CI/CD pipeline + infrastructure |
-| `agents-cli scaffold upgrade` | Auto-upgrade to latest version while preserving customizations |
+The pipeline utilizes a graph-based **Workflow** architecture to dynamically route articles to specialized geopolitical context analysts depending on the target region or language of the text.
 
 ---
 
-## Development
+## 🏗️ Project Structure
 
-Edit your agent logic in `app/agent.py` and test with `agents-cli playground` - it auto-reloads on save.
-
-## Deployment
-
-```bash
-gcloud config set project <your-project-id>
-agents-cli deploy
+```
+.
+├── app/                           # Core agent logic and dashboard
+│   ├── agent.py                   # Multi-agent Workflow graph definition
+│   ├── tools.py                   # Custom tools (e.g. YouTube transcript extraction, scraping)
+│   ├── streamlit_app.py           # Streamlit Web UI dashboard
+│   ├── fast_api_app.py            # FastAPI production backend server
+│   └── app_utils/                 # App telemetry, adapters, and typing helpers
+├── tests/                         # Unit, integration, and evaluation suites
+│   ├── eval/                      # Evaluation configurations and metrics
+│   │   ├── datasets/              # Dataset of test cases (consent-dataset.json)
+│   │   └── metrics.py             # LLM-as-judge scoring rubric
+│   └── eval_runner.py             # CLI runner for the evaluation dataset
+├── docs/                          # Architectural Decision Records (ADRs)
+├── Makefile                       # Unified shortcuts for local development
+├── pyproject.toml                 # UV dependency management configuration
+└── README.md                      # This document
 ```
 
-To add CI/CD and Terraform, run `agents-cli scaffold enhance`.
-To set up your production infrastructure, run `agents-cli infra cicd`.
+---
 
-## Observability
+## 🛠️ Requirements & Setup
 
-Built-in telemetry exports to Cloud Trace, BigQuery, and Cloud Logging.
+Before running the project, make sure you have:
+1. **uv**: Python package manager - [Install Guide](https://docs.astral.sh/uv/getting-started/installation/)
+2. **agents-cli**: Google Agents CLI - Install with:
+   ```bash
+   uv tool install google-agents-cli
+   ```
+3. **Gemini API Key**: Set your key in a `.env` file at the root of the project:
+   ```env
+   GEMINI_API_KEY=your-api-key-here
+   ```
 
-## A2A Inspector
+---
 
-This agent supports the [A2A Protocol](https://a2a-protocol.org/). Use the [A2A Inspector](https://github.com/a2aproject/a2a-inspector) to test interoperability.
-See the [A2A Inspector docs](https://github.com/a2aproject/a2a-inspector) for details.
+## 🚀 Quick Start / Development Commands
+
+We provide a `Makefile` with standard workflows for local setup, execution, testing, and linting:
+
+| Command | Purpose |
+|---------|---------|
+| `make install` | Create virtual environment (`.venv`) and install all package dependencies via `uv sync` |
+| `make run` | Launch the Streamlit dashboard on `http://localhost:8501` |
+| `make eval` | Run the local multi-agent evaluation suite using LLM-as-judge grading |
+| `make playground` | Launch the interactive local ADK CLI agent playground |
+| `make lint` | Check code quality using Ruff |
+| `make clean` | Remove `.venv`, `__pycache__`, and temp caches |
+
+---
+
+## 🧠 Workflow Architecture & Agent Pipeline
+
+The detector operates on a graph-based **Workflow** containing the following nodes:
+
+```mermaid
+graph TD
+    START --> scraper[📥 Scraper Agent]
+    scraper --> translator[🗣️ Translation Agent]
+    translator --> researcher[🔍 Research Agent]
+    researcher --> router{🧭 Context Router}
+    
+    router -- "Sri Lankan Content" --> sl_specialist[🇱🇰 Sri Lankan Context Specialist]
+    router -- "Russian Content" --> ru_specialist[🇷🇺 Russian Context Specialist]
+    router -- "Other / General" --> gen_specialist[🌍 Generic Context Specialist]
+    
+    sl_specialist --> analyzer[📊 Analysis Agent]
+    ru_specialist --> analyzer
+    gen_specialist --> analyzer
+    
+    analyzer --> END[Manufactured Consent Index Report]
+```
+
+### 1. Ingestion & Processing
+*   **Scraper Agent**: Automatically extracts article text or extracts transcripts directly from YouTube URLs.
+*   **Translation Agent**: Preserves original framing, metaphors, and tone while translating non-English content to English.
+*   **Research Agent**: Identifies entities (think tanks, politicians, NGOs) and runs real-time **Google Search grounding** to unearth backing and funding history.
+
+### 2. Geopolitical Routing & Context Specialists
+*   **Context Router**: A classification node that uses the base model to direct the article to the appropriate context specialist.
+*   **Sri Lankan Context Specialist**: Focuses on domestic Sri Lankan political histories, election dynamics, local partisan groups, and NGO networks.
+*   **Russian Context Specialist**: Highlights Kremlin foreign policy, state-backed media networks (RT, Sputnik), and proxy/information-warfare techniques.
+*   **Generic Context Specialist**: Handles general international media topics.
+
+### 3. Synthesis & Attributions
+*   **Analysis Agent**: Integrates findings, computes sub-scores, lists detected actors and propaganda techniques, and outputs the final **Manufactured Consent Index (MCI)** report.
+
+---
+
+## 📊 Evaluation & Verification
+
+The evaluation suite tests the workflow across 6 different scenarios covering organic local news, state propaganda, foreign NGO policy pushes, generic US debates, Sri Lankan provincial updates, and international YouTube commentary.
+
+To execute the verification suite:
+```bash
+make eval
+```
+
+It runs inferences, grades results via the LLM-as-judge rubric, and displays a summary verdict scorecard.
