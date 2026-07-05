@@ -68,7 +68,8 @@ graph TD
     START --> scraper[📥 Scraper Agent]
     scraper --> translator[🗣️ Translation Agent]
     translator --> researcher[🔍 Research Agent]
-    researcher --> router{🧭 Context Router}
+    researcher --> timeline[⏳ Timeline Agent]
+    timeline --> router{🧭 Context Router}
     
     router -- "Sri Lankan Content" --> sl_specialist[🇱🇰 Sri Lankan Context Specialist]
     router -- "Russian Content" --> ru_specialist[🇷🇺 Russian Context Specialist]
@@ -84,10 +85,11 @@ graph TD
 ### 1. Ingestion & Processing
 *   **Scraper Agent**: Automatically extracts article text or extracts transcripts directly from YouTube URLs.
 *   **Translation Agent**: Preserves original framing, metaphors, and tone while translating non-English content to English.
-*   **Research Agent**: Identifies entities (think tanks, politicians, NGOs) and runs real-time **Google Search grounding** to unearth backing and funding history.
+*   **Research Agent**: Identifies entities (think tanks, politicians, NGOs) and runs real-time **Google Search grounding** (optimized to exactly one query) to unearth backing and funding history.
+*   **Timeline Agent**: Investigates preceding narrative timelines and media/social-media campaign coordination (runs exactly one optimized query).
 
 ### 2. Geopolitical Routing & Context Specialists
-*   **Context Router**: A classification node that uses the base model to direct the article to the appropriate context specialist.
+*   **Context Router**: A classification node that uses the base model to direct the article to the appropriate context specialist based on the text, research brief, and media timeline.
 *   **Sri Lankan Context Specialist**: Focuses on domestic Sri Lankan political histories, election dynamics, local partisan groups, and NGO networks.
 *   **Russian Context Specialist**: Highlights Kremlin foreign policy, state-backed media networks (RT, Sputnik), and proxy/information-warfare techniques.
 *   **Generic Context Specialist**: Handles general international media topics.
@@ -99,11 +101,11 @@ graph TD
 
 ## 📊 Evaluation & Verification
 
-The evaluation suite tests the workflow across 6 different scenarios covering organic local news, state propaganda, foreign NGO policy pushes, generic US debates, Sri Lankan provincial updates, and international YouTube commentary.
+The evaluation suite tests the workflow across 5 different scenarios covering organic local news, state propaganda, foreign NGO policy pushes, generic US debates, and Sri Lankan provincial updates.
 
 To execute the verification suite:
 ```bash
 make eval
 ```
 
-It runs inferences, grades results via the LLM-as-judge rubric, and displays a summary verdict scorecard.
+It runs inferences with a 300-second timeout, grades results via the local LLM-as-judge rubric, and displays a summary verdict scorecard.

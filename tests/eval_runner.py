@@ -53,15 +53,21 @@ async def run_evaluation():
         
         agent_events = []
         try:
-            # Run inference asynchronously
-            async for event in runner.run_async(
-                user_id="eval_user",
-                session_id=f"eval_session_{case_id}",
-                new_message=user_message
-            ):
-                if event.content:
-                    agent_events.append(event)
-                    
+            # Run inference with a 180-second timeout
+            async def gather_events():
+                events = []
+                async for event in runner.run_async(
+                    user_id="eval_user",
+                    session_id=f"eval_session_{case_id}",
+                    new_message=user_message
+                ):
+                    if event.content:
+                        events.append(event)
+                return events
+
+            print(f"Starting inference with 300s timeout...")
+            agent_events = await asyncio.wait_for(gather_events(), timeout=300.0)
+            
             # Get final state to retrieve mci_report
             session = await runner.session_service.get_session(
                 app_name="app",
@@ -103,6 +109,14 @@ async def run_evaluation():
             print(f"Result: {results[-1]['status']} (Score: {results[-1]['score']}/5)")
             print(f"Reason: {results[-1]['explanation']}")
             
+        except asyncio.TimeoutError:
+            print(f"Timeout Error: Case '{case_id}' exceeded 300 seconds.")
+            results.append({
+                "case_id": case_id,
+                "score": 0,
+                "explanation": "Timeout Error: Execution exceeded 5 minutes",
+                "status": "TIMEOUT"
+            })
         except Exception as e:
             import traceback
             traceback.print_exc()

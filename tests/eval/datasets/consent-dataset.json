@@ -99,28 +99,7 @@
           "role": "model",
           "parts": [
             {
-              "text": "MCI Score: Low to Moderate. This article discusses Gampola divisional secretary Athma Dilrukshi Jayaratne being targeted in a political/administrative conspiracy. It contains Sri Lankan provincial context and should be routed to the Sri Lankan Context Specialist."
-            }
-          ]
-        }
-      }
-    },
-    {
-      "eval_case_id": "duran_russian_geopolitics",
-      "prompt": {
-        "role": "user",
-        "parts": [
-          {
-            "text": "https://www.youtube.com/watch?v=Xp9jvjQiZHY"
-          }
-        ]
-      },
-      "reference": {
-        "response": {
-          "role": "model",
-          "parts": [
-            {
-              "text": "MCI Score: Moderate to High. This transcript features Alexander Mercouris commentary focusing on Vladimir Putin and the conflict in Ukraine. It contains Russian geopolitical themes and Kremlin narratives, and must route to the Russian Context Specialist."
+              "text": "MCI Score: Moderate to High. This article discusses Gampola divisional secretary Athma Dilrukshi Jayaratne being targeted in a political/administrative conspiracy. It contains Sri Lankan provincial context and should be routed to the Sri Lankan Context Specialist. The article employs heavily loaded framing and conspiracy narratives, leading to a higher risk score."
             }
           ]
         }

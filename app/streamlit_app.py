@@ -81,6 +81,7 @@ def render_agents_list(active_agent_name=None, completed=False):
         ("scraper_agent", "📥 Scraper Agent", "Text extraction"),
         ("translation_agent", "🗣️ Translation Agent", "Language translation"),
         ("research_agent", "🔍 Research Agent", "Dynamic web research"),
+        ("timeline_agent", "⏳ Timeline Agent", "Media & campaign timeline"),
         ("context_router", "🧭 Context Router", "Deciding regional routing"),
         ("context_specialist", "🌍 Context Specialist", "Sri Lankan, Russian, or Generic context"),
         ("analysis_agent", "📊 Analysis Agent", "MCI Score & Report")
@@ -157,6 +158,7 @@ if analyze_button:
                     "scraper_agent",
                     "translation_agent",
                     "research_agent",
+                    "timeline_agent",
                     "context_router",
                     "sri_lankan_context_specialist",
                     "russian_context_specialist",
@@ -173,6 +175,8 @@ if analyze_button:
                     status_box.update(label="🗣️ Translation Agent: Translating text...")
                 elif event.author == "research_agent":
                     status_box.update(label="🔍 Research Agent: Dynamic web search...")
+                elif event.author == "timeline_agent":
+                    status_box.update(label="⏳ Timeline Agent: Investigating media timeline...")
                 elif event.author == "context_router":
                     status_box.update(label="🧭 Context Router: Resolving regional context routing...")
                 elif event.author == "sri_lankan_context_specialist":
@@ -215,6 +219,7 @@ if analyze_button:
             scraped = state.get("scraped_content", "")
             translated = state.get("translated_content", "")
             research = state.get("research_brief", "")
+            timeline = state.get("narrative_timeline", "")
             context = state.get("context_analysis", "")
             mci_report = state.get("mci_report")
             
@@ -317,6 +322,9 @@ if analyze_button:
                 with st.expander("Web Research Brief (DuckDuckGo Search results)"):
                     st.markdown(research)
                     
+                with st.expander("Preceding Media Timeline & Campaign Analysis"):
+                    st.markdown(timeline)
+                    
                 with st.expander("Sri Lankan Context & Nuance Report"):
                     st.markdown(context)
                     
@@ -347,6 +355,9 @@ if analyze_button:
 
 ## Dynamic Web Research Brief
 {research}
+
+## Preceding Media Timeline & Campaign Analysis
+{timeline}
 
 ## Sri Lankan Context & Nuance Report
 {context}
